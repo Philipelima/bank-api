@@ -55,20 +55,23 @@ class RegisterController extends Controller
                 'document'   => ['required', 'max:18', 'string']
             ]);
     
-            $this->userService->create($data);
+            $user = $this->userService->create($data);
 
             return response()->json([
-                'success' => true,
-                'message' => 'User Succefully Created',
-                'data'    => $data
+                'message' => 'User successfully created',
+                'data'    => $user
             ], 201);
 
+        } catch(\Illuminate\Database\UniqueConstraintViolationException $th)  {
+            return response()->json([
+                'message' => 'Sorry, we were unable to process your request. Please check your data and try again.', 
+                'data'    => null
+            ], 422);
         } catch (\Throwable $th) {
             return response()->json([
-                'success' => false,
                 'message' => $th->getMessage(), 
                 'data'    => null
-            ], $th->getCode() ?: 400);
-        }
+            ], (int)$th->getCode() ?: 400);
+        } 
     }
 }
