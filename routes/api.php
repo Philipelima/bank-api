@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Balance\BalanceController;
 use App\Http\Controllers\Operation\DepositController;
 use App\Http\Controllers\User\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,6 @@ Route::prefix('/operation')->middleware(['user.type:common'])->group(function(){
     Route::post('/deposit', [DepositController::class, 'store']);
 
 });
+
+
+Route::middleware(['auth:sactum'])->get('/balance', [BalanceController::class, 'index']);
