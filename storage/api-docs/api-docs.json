@@ -12,7 +12,7 @@
         "/api/register": {
             "post": {
                 "tags": [
-                    "register"
+                    "user"
                 ],
                 "summary": "Realiza o cadastro de usários",
                 "operationId": "dcbd07d28fe60878864011b9fd551690",
@@ -22,18 +22,37 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "name",
-                                    "email"
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "user_type",
+                                    "document"
                                 ],
                                 "properties": {
-                                    "name": {
+                                    "first_name": {
                                         "type": "string",
-                                        "example": "João Silva"
+                                        "example": "Jonh"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "Doe"
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
                                         "example": "joao@email.com"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "user_type": {
+                                        "type": "string",
+                                        "example": "common"
+                                    },
+                                    "document": {
+                                        "type": "string",
+                                        "example": "417.792.460-13"
                                     }
                                 },
                                 "type": "object"
@@ -42,8 +61,11 @@
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "Cadastro de Usuário"
+                    "201": {
+                        "description": "User Succefully Created"
+                    },
+                    "400": {
+                        "description": "Error"
                     }
                 }
             }
@@ -51,8 +73,8 @@
     },
     "tags": [
         {
-            "name": "register",
-            "description": "register"
+            "name": "user",
+            "description": "user"
         }
     ]
 }
