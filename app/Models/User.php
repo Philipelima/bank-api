@@ -7,13 +7,16 @@ namespace App\Models;
 use App\Enums\User\UserType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+use Laravel\Sanctum\HasApiTokens;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasUuids;
+    use HasFactory, Notifiable, HasUuids, HasApiTokens;
 
     protected $primaryKey = 'uuid'; // Define a chave primária como 'uuid'
     
