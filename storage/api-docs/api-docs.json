@@ -1,0 +1,58 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Simple Bank",
+        "description": "Api de Banco Simples",
+        "contact": {
+            "email": "seuemail@exemplo.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "register"
+                ],
+                "summary": "Realiza o cadastro de usários",
+                "operationId": "dcbd07d28fe60878864011b9fd551690",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "João Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "joao@email.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cadastro de Usuário"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "register",
+            "description": "register"
+        }
+    ]
+}
