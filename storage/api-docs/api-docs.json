@@ -9,6 +9,60 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/balance": {
+            "get": {
+                "tags": [
+                    "balance"
+                ],
+                "summary": "realiza consulta de saldo bancario.",
+                "operationId": "1e724cdabe1edbb59766478427db6f7c",
+                "responses": {
+                    "200": {
+                        "description": "Status Ok"
+                    },
+                    "401": {
+                        "description": "Status Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/operation/deposit": {
+            "post": {
+                "tags": [
+                    "balance"
+                ],
+                "summary": "realiza deposito de saldo.",
+                "operationId": "075f98e8f5a35346367ead0cb01cbd34",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": "390.20"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status Ok"
+                    },
+                    "401": {
+                        "description": "Status Unauthorized"
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -113,6 +167,10 @@
         }
     },
     "tags": [
+        {
+            "name": "balance",
+            "description": "balance"
+        },
         {
             "name": "user",
             "description": "user"
