@@ -14,7 +14,21 @@ class BalanceController extends Controller
     ){   
     }
 
-    //
+    /**
+     * @OA\Get(
+     *     path="/api/balance",
+     *     summary="realiza consulta de saldo bancario.",
+     *     tags={"balance"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Status Ok"
+     *     ), 
+     *     @OA\Response(
+     *         response=401,
+     *         description="Status Unauthorized"
+     *     )
+     * )
+     */
     public function index(Request $request)
     {
         $user    = auth()->user();
@@ -26,6 +40,6 @@ class BalanceController extends Controller
             'data'    => [
                 'balance' => $balance->balance
             ]
-            ]);
+        ]);
     }
 }
