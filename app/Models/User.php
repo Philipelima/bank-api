@@ -14,6 +14,12 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasUuids;
 
+    protected $primaryKey = 'uuid'; // Define a chave primária como 'uuid'
+    
+    public $incrementing = false; // Impede que o Laravel trate como autoincremento
+    
+    protected $keyType = 'string'; // Define o tipo da chave primária como string
+
     /**
      * The attributes that are mass assignable.
      *
@@ -37,7 +43,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password'
+        'password', 
+        'created_at', 
+        'updated_at'
     ];
 
     /**
