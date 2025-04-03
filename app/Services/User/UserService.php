@@ -12,7 +12,8 @@ use App\Validators\DocumentValidator;
 class UserService 
 {
     public function __construct(
-        private UserRepository $userRepository = new UserRepository
+        private DocumentValidator $documentValidator = new DocumentValidator,
+        private UserRepository $userRepository       = new UserRepository
     ){
     }
 
@@ -23,10 +24,12 @@ class UserService
             throw new InvalidUserTypeException("Sorry, the selected user type is invalid.", 400);
         }  
 
-        if ($userType == UserType::MERCHANT && !DocumentValidator::isValidCnpj($data['document'])) {
+        $this->documentValidator->setDocument($data['document']);
+
+        if ($userType == UserType::MERCHANT && !$this->documentValidator->isValidCnpj()) {
             throw new InvalidUserTypeException("Sorry, the informed document is not valid for the user type.", 400);
         }
-        if ($userType == UserType::COMMON && !DocumentValidator::isValidCpf($data['document'])) {
+        if ($userType == UserType::COMMON && !$this->documentValidator->isValidCpf()) {
             throw new InvalidUserTypeException("Sorry, the informed document is not valid for user type.", 400);
         }
 
