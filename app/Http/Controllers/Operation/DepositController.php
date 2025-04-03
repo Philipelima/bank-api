@@ -13,6 +13,28 @@ class DepositController extends Controller
     ){
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/operation/deposit",
+     *     summary="realiza deposito de saldo.",
+     *     tags={"balance"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"amount"},
+     *             @OA\Property(property="amount", type="float", example="390.20"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Status Ok"
+     *     ), 
+     *     @OA\Response(
+     *         response=401,
+     *         description="Status Unauthorized"
+     *     )
+     * )
+     */
     public function store(Request $request) 
     {
         $user = auth()->user();
