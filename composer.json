@@ -10,7 +10,8 @@
         "darkaonline/l5-swagger": "^9.0",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "sweetrewenge/laravel-queue-rabbitmq": "dev-master"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -33,6 +34,12 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sweetrewenge/laravel-queue-rabbitmq.git"
+        }
+    ],
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
