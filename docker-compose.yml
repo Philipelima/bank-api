@@ -44,6 +44,19 @@ services:
     networks:
       - backend
 
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: simple-bank_rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"  # Porta do RabbitMQ
+      - "15672:15672"  # Painel de administração
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - backend
+      
 volumes:
   postgres_data:
 
