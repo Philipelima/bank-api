@@ -17,7 +17,7 @@ class BalanceHistoryRepository
         return $this->balance->create($data);
     }
 
-    public function last(string $user_uuid): Balance
+    public function last(string $user_uuid): Balance | null
     {
         return $this->balance->where('user_uuid', $user_uuid)->orderBy('created_at', 'DESC')->first();
     }
