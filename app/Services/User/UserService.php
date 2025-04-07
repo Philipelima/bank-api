@@ -36,4 +36,9 @@ class UserService
         return $this->userRepository->create($data);
     }
 
+    public function find(string $by, string $value)
+    {
+        return $this->userRepository->findOne($by, $value);
+    }
+
 }
