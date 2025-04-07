@@ -16,4 +16,9 @@ class UserRepository
     {
         return User::create($user);
     }
+
+    public function findOne(string $by, string $value)
+    {
+        return User::where($by, $value)->first();
+    }
 }
