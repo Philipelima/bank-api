@@ -4,3 +4,5 @@ phpmd:
 	@docker run -it --rm -v ${PWD}:/project -w /project jakzal/phpqa phpmd app text cleancode,codesize,controversial,design,naming,unusedcode
 dev: 
 	@php artisan serve
+queue:
+	@php artisan queue:work rabbitmq
