@@ -60,14 +60,26 @@ O campo failed_reason foi adicionado à tabela de transações com o objetivo de
 
 ![Diagrama do fluxo de transferência](./.github/transfer.drawio.png)
 
-### A decisão de usar o design pattern "chain of responsibility"
+<br>
+
+> Toda Transação  inicia-se com o status de pending já no incio do processamento, podendo finalizar em <code>completed</code> ou <code>failed</code> (em caso de falha). 
+
+<br>
+
+
+### A decisão de usar o design pattern "chain of responsibility" para o processo de transferência:
 
 O padrão Chain of Responsibility foi utilizado para organizar o processo de transferência em etapas desacopladas e sequenciais. Isso facilita a manutenção, torna o código mais legível e permite adicionar novas regras de negócio com pouca intervenção no código existente. Além disso, permite aplicar o princípio do fail fast, abortando o fluxo assim que uma validação falha.
 
 
-### A decisão de usar o RabbitMQ no processo de envio de notificações
+### A decisão de usar o RabbitMQ no processo de envio de notificações do sistema:
 
 O RabbitMQ foi escolhido por oferecer maior confiabilidade no tratamento de mensagens, com suporte à persistência, o que garante que nenhuma notificação seja perdida mesmo diante de falhas temporárias no consumidor. Além disso, o RabbitMQ proporciona mais controle sobre reentregas e confirmações de leitura, permitindo uma arquitetura mais resiliente, escalável e alinhada com boas práticas de sistemas distribuídos.
 
 ![Painel do RabbitMQ](./.github/image.png)
 
+### O design pattern do envio de notificações: 
+
+Para o envio de notificações, foi adotado o padrão de projeto Strategy. Essa decisão visa garantir flexibilidade, organização e facilidade de manutenção, permitindo que diferentes canais de notificação (como e-mail, SMS ou push) sejam implementados de forma isolada, respeitando o princípio da abertura para extensão e fechamento para modificação (OCP).
+
+Dessa forma, o sistema pode crescer de forma sustentável, facilitando a adição de novos canais sem impactar os já existentes, promovendo também uma melhor testabilidade e separação de responsabilidades entre os componentes.
