@@ -63,6 +63,251 @@
                 }
             }
         },
+        "/api/transfer": {
+            "post": {
+                "tags": [
+                    "transfer"
+                ],
+                "summary": "Realiza uma transferência de saldo.",
+                "operationId": "019f8fcff4f801667e55471ffbda8ca0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "value",
+                                    "payer",
+                                    "payee"
+                                ],
+                                "properties": {
+                                    "value": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 390.2
+                                    },
+                                    "payer": {
+                                        "type": "string",
+                                        "example": "0195fc6f-c18f-71c0-aa5f-9b127892d829"
+                                    },
+                                    "payee": {
+                                        "type": "string",
+                                        "example": "01960372-4e03-7327-ba48-c00a3e5d72dc"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transfer completed successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string",
+                                                    "example": "01961274-35fc-72a8-8e64-6eb376a2b28c"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 390.2
+                                                },
+                                                "completed_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-04-07 22:52:08"
+                                                },
+                                                "auth_code": {
+                                                    "type": "string",
+                                                    "example": "1UKJ6W1R4L"
+                                                },
+                                                "authorized_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-04-07 22:52:08"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "We couldn’t authorize your transfer. Please try again later."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Insufficient balance to complete this transfer."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "transfer"
+                ],
+                "summary": "Cancela uma transferência já realizada.",
+                "operationId": "0e097d52726ba84f9afcf08e28f98fc1",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Status Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transfer completed successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string",
+                                                    "example": "01961274-35fc-72a8-8e64-6eb376a2b28c"
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 390.2
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "canceled"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "unauthorized"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "We couldn’t authorize your transfer. Please try again later."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry, transfer already have been canceled"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -170,6 +415,10 @@
         {
             "name": "balance",
             "description": "balance"
+        },
+        {
+            "name": "transfer",
+            "description": "transfer"
         },
         {
             "name": "user",
