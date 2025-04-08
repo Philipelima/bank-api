@@ -50,8 +50,7 @@ class Transfer extends Model
     protected function casts(): array
     {
         return [
-            'password' => 'hashed',
-            'user_type' => TransferStatus::class
+            'status' => TransferStatus::class
         ];
     }
 }
