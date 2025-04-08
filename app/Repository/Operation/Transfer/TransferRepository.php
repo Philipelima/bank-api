@@ -18,5 +18,10 @@ class TransferRepository
         return $this->transfer->create($data);
     }
 
+    public function find(string $uuid) 
+    {
+        return $this->transfer->where('uuid', $uuid)->first();
+    }
+
     
 }

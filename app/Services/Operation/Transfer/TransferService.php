@@ -10,20 +10,23 @@ use App\Exceptions\Transfer\InsufficientBalanceException;
 use App\Exceptions\Transfer\NotAuthorizedTransferException;
 
 use App\Exceptions\User\InvalidUserTypeException;
+use App\Models\Operation\Transfer\Transfer;
 use App\Repository\Operation\Transfer\TransferRepository;
-
+use App\Services\Balance\BalanceService;
 use App\Services\Notification\NotificationService;
 use App\Services\Operation\Transfer\Factories\TransferChainFactory;
 use App\Services\User\UserService;
+use GuzzleHttp\Exception\TransferException;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TransferService 
 {
     public function __construct(
         private TransferChainFactory $transferChainFactory,
         private NotificationService  $notificationService,
+        private BalanceService       $balanceService,
         private TransferRepository $transferRepository,
-
         private UserService  $userService
     ){
     }
@@ -103,6 +106,32 @@ class TransferService
         
     }
 
+
+    public function cancel(User $user, string $uuid)
+    {
+        $transfer = $this->transferRepository->find($uuid);
+
+        if (!$transfer instanceof Transfer || $transfer->payer_uuid != $user->uuid) {
+            throw new NotFoundHttpException("Sorry, transfer not found.", null, 404);
+        }
+
+        $status = TransferStatus::tryFrom($transfer->status->value);
+
+        if ($status === TransferStatus::CANCELED) {
+            throw new TransferException("Sorry, this transfer has already been canceled.", 422);
+        }
+
+        $payee =  $this->userService->find('uuid', $transfer->payee_uuid);
+
+        $this->balanceService->updateBalance($payee, (float) $transfer->amount, 'transfeer');
+        $this->balanceService->updateBalance($user,  (float) $transfer->amount, 'deposit');
+
+        $transfer->update([
+            'status' => TransferStatus::CANCELED
+        ]);
+
+        return $transfer;
+    }
     /**
      * @param User $user 
      * 

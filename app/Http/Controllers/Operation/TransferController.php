@@ -92,4 +92,79 @@ class TransferController extends Controller
             ], $th->getCode());
         }
     }
+
+    /**
+    * @OA\Delete(
+    *     path="/api/transfer",
+    *     summary="Cancela uma transferência já realizada.",
+    *     tags={"transfer"},
+    *     @OA\Parameter(
+    *         name="uuid",
+    *         in="path",
+    *         required=true,
+    *         description="UUID do usuário",
+    *         @OA\Schema(type="string", format="uuid")
+    *     ),
+    *     @OA\Response(
+    *         response=200,
+    *         description="Status Ok",
+    *         @OA\JsonContent(
+    *             @OA\Property(property="message", type="string", example="Transfer completed successfully"),
+    *             @OA\Property(property="data", type="object",
+    *                 @OA\Property(property="uuid", type="string", example="01961274-35fc-72a8-8e64-6eb376a2b28c"),
+    *                 @OA\Property(property="amount", type="number", format="float", example=390.20),
+    *                 @OA\Property(property="status", type="string", example="canceled"),
+    *             )
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response=401,
+    *         description="Unauthorized",
+    *         @OA\JsonContent(
+    *             @OA\Property(property="message", type="string", example="unauthorized"),
+    *             @OA\Property(property="data", type="object", nullable=true, example=null)
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response=404,
+    *         description="Not Found",
+    *         @OA\JsonContent(
+    *             @OA\Property(property="message", type="string", example="We couldn’t authorize your transfer. Please try again later."),
+    *             @OA\Property(property="data", type="object", nullable=true, example=null)
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response=422,
+    *         description="Unprocessable Content",
+    *         @OA\JsonContent(
+    *             @OA\Property(property="message", type="string", example="Sorry, transfer already have been canceled"),
+    *             @OA\Property(property="data", type="object", nullable=true, example=null)
+    *         )
+    *     )
+    * )
+    */
+    public function cancel(Request $request, string $uuid) 
+    {
+        $user = auth()->user();
+
+        try {
+
+            $transfer = $this->transferService->cancel($user, $uuid);
+
+            return response()->json([
+                'message' => 'Operation completed successfully!', 
+                'data'    => [
+                    'uuid'    => $transfer->uuid,
+                    'amount'  => $transfer->amount,
+                    'status'  => $transfer->status, 
+                ]
+            ]);
+
+        } catch(\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage(), 
+                'data'    => null
+            ], $th->getCode());
+        }
+    }
 }
