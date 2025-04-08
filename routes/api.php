@@ -21,9 +21,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::prefix('/operation')->middleware(['user.type:common'])->group(function(){
 
     Route::post('/deposit', [DepositController::class, 'store']);
-    
 });
 
-Route::middleware(['auth:sactum'])->post('/transfer', [TransferController::class, 'store']);
+
+Route::middleware(['auth:sactum', 'user.type:common'])->post('/transfer', [TransferController::class, 'store']);
+Route::middleware(['auth:sactum', 'user.type:common'])->delete('/transfer/{uuid}', [TransferController::class, 'cancel']);
+
 
 Route::middleware(['auth:sactum'])->get('/balance', [BalanceController::class, 'index']);
