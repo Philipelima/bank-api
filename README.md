@@ -176,7 +176,12 @@ Para acessar a documentação após rodar o projeto, basta acessar:
 
 
 
+## Melhorias Futuras 
 
 
-
-
+* Adição de testes automátizados para verificação do fluxo da aplicação
+* Monitoramento de métricas e alertas com Prometheus + Grafana
+* Implementação de logs estruturados para facilitar a rastreabilidade
+* Uso de DTOs do controller para o service;
+* Implementação de cache em rotas com alto volume de leitura, reduzindo carga no banco de dados e melhorando a performance das respostas da API (ex: uso de cache com Redis ou memcached)
+* Adição de idempotency Key na request de transferencia;
