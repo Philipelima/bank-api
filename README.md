@@ -12,13 +12,90 @@ API desenvolvida com o objetivo de simular um sistema bancário simplificado, co
 * Docker + Docker compose
 * Swagger 
 
+### Rodando o projeto 
+
+Clone o repositório do projeto
+
+~~~bash 
+    git clone https://github.com/Philipelima/bank-api.git
+~~~
+
+
+
+Suba os containers:
+
+~~~bash 
+   docker compose up -d
+~~~
+
+Acesse o container da aplicação
+
+~~~bash 
+   docker exec -it simple-bank_app bash
+~~~
+
+Dentro do container, instale as dependências
+
+~~~bash
+    composer install
+~~~
+
+Gere a key da aplicação
+
+~~~bash
+    php artisan key:generate
+~~~
+
+Gere a documentação Swagger
+
+~~~bash
+    php artisan l5-swagger:generate
+~~~
+
+
+Configure o arquivo .env: 
+
+~~~bash 
+
+ DB_CONNECTION=pgsql
+ DB_HOST={db_host}
+ DB_PORT={db_port}
+ DB_DATABASE={db_name}
+ DB_USERNAME={db_username}
+ DB_PASSWORD={db_password}
+
+ ...
+
+ QUEUE_CONNECTION=rabbitmq
+
+ ... 
+
+ RABBITMQ_HOST={rabbitmq_host}
+ RABBITMQ_PORT={rabbitmq_port}
+ RABBITMQ_USER={rabbitmq_user}
+ RABBITMQ_PASSWORD={rabbitmq_password}
+ RABBITMQ_QUEUE={rabbitmq_queue}
+~~~
+
+Se tudo estive okay, a api está disponivel no seguinte endereço:  
+
+~~~bash
+    http://localhost:8000
+~~~
+
+E a documentação em: 
+
+~~~bash
+   http://127.0.0.1:8000/api/documentation
+~~~
+
 
 ### Regras de Negócio
 * Usuários do tipo lojista não podem enviar transferências.
 
 * Transferências exigem saldo suficiente e validação externa de autorização.
 
-* Todas as transferências começam com o status pending.
+* Lojistas só recebem transferências, não enviam dinheiro para ninguém.
 
 ### Definição do Banco de Dados: 
 
@@ -83,3 +160,23 @@ O RabbitMQ foi escolhido por oferecer maior confiabilidade no tratamento de mens
 Para o envio de notificações, foi adotado o padrão de projeto Strategy. Essa decisão visa garantir flexibilidade, organização e facilidade de manutenção, permitindo que diferentes canais de notificação (como e-mail, SMS ou push) sejam implementados de forma isolada, respeitando o princípio da abertura para extensão e fechamento para modificação (OCP).
 
 Dessa forma, o sistema pode crescer de forma sustentável, facilitando a adição de novos canais sem impactar os já existentes, promovendo também uma melhor testabilidade e separação de responsabilidades entre os componentes.
+
+
+## Documentação da API
+
+Para a documentação da API, foi utilizado o Swagger, permitindo que qualquer alteração no código seja rapidamente refletida na documentação, promovendo um alinhamento contínuo entre a implementação e sua descrição.
+
+![Tela do Swagger](./.github/swagger.png)
+
+Para acessar a documentação após rodar o projeto, basta acessar: 
+
+~~~bash
+    http://127.0.0.1:8000/api/documentation
+~~~
+
+
+
+
+
+
+
