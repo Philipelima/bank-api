@@ -30,10 +30,8 @@ class UserCanTransferHandler implements TransferHandlerInterface
         /** @var User $payer */
         $payer  = $data['payer'];
 
-        $payer  = $this->userService->find('uuid', $payer->uuid);
-
         if ($payer->user_type !== UserType::COMMON) {
-            throw new InvalidUserTypeException("sorry, only common users can transfer money.");
+            throw new InvalidUserTypeException("sorry, only common users can transfer money.", 422);
         }
 
         if ($this->next) {
