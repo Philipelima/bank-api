@@ -47,10 +47,8 @@ class TransferService
             throw new \InvalidArgumentException("Amount must be a valid number greater than 0.");
         }
         
-        $this->ensureUserCanTransfer($user);
-        
-        $data['payer'] = $user; 
-        
+        $data['payer'] = $user;
+
         $payee = $this->userService->find('uuid', $data['payee']);
 
         if (!$payee instanceof User) {
@@ -132,16 +130,4 @@ class TransferService
 
         return $transfer;
     }
-    /**
-     * @param User $user 
-     * 
-     * @throws InvalidUserTypeException
-     */ 
-    private function ensureUserCanTransfer(User $user): void
-    {
-        if ($user->user_type !== UserType::COMMON) {
-            throw new InvalidUserTypeException("sorry, only common users can transfer money.");
-        }
-    }
-
 }
