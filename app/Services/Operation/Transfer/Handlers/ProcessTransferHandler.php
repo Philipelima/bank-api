@@ -49,7 +49,7 @@ class ProcessTransferHandler implements TransferHandlerInterface
                 'completed_at'  => date('Y-m-d H:i:s')
             ]);
         } catch (\Throwable $th) {
-            print_r($th->getMessage());exit;
+            throw $th;
         }
 
     }
