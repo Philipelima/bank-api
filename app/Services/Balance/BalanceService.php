@@ -16,7 +16,7 @@ class BalanceService
     ){
     }
 
-    public function last(User $user): Balance
+    public function last(User $user): Balance | null
     {
         return $this->balanceHistoryRepository->last($user->uuid);
     }
